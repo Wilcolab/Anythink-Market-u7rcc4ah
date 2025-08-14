@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const tasksRouter = require('./routes/tasks');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,6 +10,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev')); // Logging middleware
+
+// Mount tasks router
+app.use('/tasks', tasksRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
