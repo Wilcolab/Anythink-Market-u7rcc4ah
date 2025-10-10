@@ -10,6 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev')); // Logging middleware
 
+// Readiness / root endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Node server is ready', status: 'ok' });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
