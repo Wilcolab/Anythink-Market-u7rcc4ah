@@ -41,26 +41,8 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Run integration checks (docker compose + script)
-        run: |
-          set -euo pipefail
-          # build and start services
-          docker compose up --detach --build
-          # retry the endpoint checks for up to ~60s
-          for i in {1..12}; do
-            if ./scripts/check_endpoints.sh; then
-              echo "Integration checks passed"
-              break
-            else
-              echo "Attempt $i failed, retrying..."
-              sleep 5
-            fi
-          done
-          # show logs (helpful in CI if something goes wrong)
-          docker compose logs --tail=200
-        shell: bash
-      - name: Tear down compose
-        if: always()
-        run: |
-          docker compose down --volumes --remove-orphans || true
-        shell: bash
+      - name: Wilco checks
+        id: Wilco
+        uses: trywilco/actions@main
+        with:
+          engine: ${{ secrets.WILCO_ENGINE_URL }}
